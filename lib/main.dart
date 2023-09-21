@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_recom/screens/meal_detail.dart';
-import 'package:food_recom/screens/home.dart';
+import 'package:one_meal/screens/meal_detail.dart';
+import 'package:one_meal/screens/home.dart';
+import 'package:one_meal/screens/wishlist.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => const Home(),
-        '/detail': (context) => const MealDetail()
+        '/detail': (context) => const MealDetail(),
+        '/wishlist': (context) => const Wishlist(),
       },
     );
   }

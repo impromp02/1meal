@@ -1,8 +1,9 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:food_recom/meal_card.dart';
-import 'package:food_recom/meal_model.dart';
-import 'package:food_recom/top_bar.dart';
+import 'package:one_meal/services/meal_api.dart';
+import 'package:one_meal/widgets/meal_card.dart';
+import 'package:one_meal/models/meal_model.dart';
+import 'package:one_meal/widgets/top_bar.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,29 +14,38 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AppinioSwiperController controller = AppinioSwiperController();
+  late List<MealElement> meals = [];
+  @override
+  void initState() {
+    super.initState();
+    () async {
+      final response = await fetchMeals('Indian');
+      setState(() {
+        meals = response.meals;
+      });
+    }();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const TopBar(),
-      backgroundColor: Colors.white,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.75,
+            height: MediaQuery.of(context).size.height * 0.70,
             child: AppinioSwiper(
               backgroundCardsCount: meals.length,
               swipeOptions:
                   const AppinioSwipeOptions.only(right: true, left: true),
-              unlimitedUnswipe: true,
               controller: controller,
               onSwipe: _swipe,
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
               onEnd: _onEnd,
               cardsCount: meals.length,
               cardsBuilder: (BuildContext context, index) =>
-                  MealCard(meal: meals[index]),
+                  meals.isNotEmpty ? MealCard(meal: meals[index]) : Container(),
             ),
           ),
           const SizedBox(
@@ -45,8 +55,8 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(
-                height: 60,
-                width: 60,
+                height: 80,
+                width: 80,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(0),
@@ -62,8 +72,8 @@ class _HomeState extends State<Home> {
                 ),
               ),
               SizedBox(
-                height: 60,
-                width: 60,
+                height: 80,
+                width: 80,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(0),
@@ -78,8 +88,8 @@ class _HomeState extends State<Home> {
                 ),
               ),
               SizedBox(
-                height: 60,
-                width: 60,
+                height: 80,
+                width: 80,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(0),
@@ -105,7 +115,7 @@ class _HomeState extends State<Home> {
     debugPrint('index ===> ${index.toString()}');
     if (direction == AppinioSwiperDirection.right) {
       Navigator.pushNamed(context, '/detail',
-          arguments: <String, MealModel>{'meal': meals[index - 1]});
+          arguments: <String, MealElement>{'meal': meals[index - 1]});
     }
   }
 

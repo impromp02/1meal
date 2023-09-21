@@ -8,23 +8,20 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: true,
+      backgroundColor: Colors.teal,
+      foregroundColor: Colors.white,
       title: const Text(
         '1Meal',
-        textAlign: TextAlign.center,
         style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.w600,
-          fontSize: 36,
+          fontWeight: FontWeight.w700,
+          fontSize: 34,
         ),
       ),
-      backgroundColor: Colors.white,
       actions: <Widget>[
         IconButton(
           icon: const Icon(
             Icons.favorite,
-            color: Colors.black,
-            size: 32,
+            size: 34,
           ),
           tooltip: 'Open shopping cart',
           onPressed: () {
